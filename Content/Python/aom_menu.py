@@ -83,22 +83,25 @@ def _confirm(path: str) -> bool:
 def register_menus():
     menus = unreal.ToolMenus.get()
 
-    # 2) Content Browser 폴더 우클릭 메뉴
+    # Content Browser 폴더 우클릭 메뉴
     cb_menu = menus.extend_menu("ContentBrowser.FolderContextMenu")
-    section_name = "AutoOverViewMeshes"
-    cb_menu.add_section(section_name, "create overview to place meshes")
 
-    e3 = unreal.ToolMenuEntry(
-        name="AutoOverViewMeshes.CB.Run",
+    # 기존 PathViewFolderContext 섹션에 추가 (다른 플러그인과 충돌 방지)
+    section_name = "AutoOverViewMeshes"
+    cb_menu.add_section(section_name, "Auto OverView Meshes")
+
+    e = unreal.ToolMenuEntry(
+        name="AutoOverViewMeshes",
         type=unreal.MultiBlockType.MENU_ENTRY
     )
-    e3.set_label("AutoOverViewMeshes")
-    e3.set_string_command(
+    e.set_label("Auto Place Meshes from Folder")
+    e.set_tool_tip("폴더의 StaticMesh들을 선택한 액터 위에 그리드로 배치")
+    e.set_string_command(
         type=unreal.ToolMenuStringCommandType.PYTHON,
         custom_type="",
-        string="import menu as M; M._run()"
+        string="import aom_menu as M; M._run()"
     )
-    cb_menu.add_menu_entry(section_name, e3)
-
-    menus.refresh_all_widgets()
+    cb_menu.add_menu_entry(section_name, e)
     _log("[AutoOverViewMeshes] Menus registered")
+
+

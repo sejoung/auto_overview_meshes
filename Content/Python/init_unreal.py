@@ -1,4 +1,4 @@
-from menu import register_menus
+from aom_menu import register_menus
 from utils import _log, _err
 
 
