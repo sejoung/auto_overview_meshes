@@ -3,6 +3,11 @@ import unreal
 from placement import auto_place_from_selected_folder
 from utils import _log
 
+@unreal.uclass()
+class PlacementOptions(unreal.Object):
+    start_row = unreal.uproperty(int)
+    per_row = unreal.uproperty(int)
+    spacing_cm = unreal.uproperty(float)
 
 def _get_selected_content_path() -> str:
     selected_path = unreal.EditorUtilityLibrary.get_current_content_browser_path()
@@ -13,14 +18,50 @@ def _get_selected_content_path() -> str:
         raise Exception("NOT FOUND PATH")
 
 
+def _get_placement_options():
+    # 임시 객체 생성
+    obj = PlacementOptions()
+    obj.start_row = 0
+    obj.per_row = 5
+    obj.spacing_cm = 1000.0
+
+    # DetailsView 옵션
+    options = [True, False, False, 300, 120, 1.0]
+
+    # 팝업 띄우기
+    result = unreal.EditorDialog.show_object_details_view(
+        "Placement Options",
+        obj,
+        options
+    )
+
+    # 취소하면 None
+    if not result:
+        _log("User cancelled.")
+        return None
+
+    _log(f"입력된 옵션: start_row={obj.start_row}, per_row={obj.per_row}, spacing_cm={obj.spacing_cm}")
+    return obj
+
+
 def _run():
     src = _get_selected_content_path()
     _log(f"[AutoOverViewMeshes] src={src}")
 
     if not _confirm(src):
         _log("사용자가 취소했습니다.")
-    else:
-        auto_place_from_selected_folder(folder=src)
+        return
+
+    options = _get_placement_options()
+    if options is None:
+        return
+
+    auto_place_from_selected_folder(
+        folder=src,
+        start_row=options.start_row,
+        per_row=options.per_row,
+        spacing_cm=options.spacing_cm
+    )
 
 
 def _confirm(path: str) -> bool:

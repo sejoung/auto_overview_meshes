@@ -6,7 +6,7 @@ from datetime import datetime
 from logging import error
 
 EXCLUDE_DIRS = {"Binaries", "Intermediate", "Saved", ".git", ".vs", "__pycache__", ".idea", "venv", "Dist", "deploy.py",
-                "LICENSE", "README.md", "requirements.txt", ".gitignore"}
+                "LICENSE", "README.md", "requirements.txt", ".gitignore","CLAUDE.md"}
 EXCLUDE_EXTS = {".pdb", ".obj", ".exp", ".idb", ".log"}
 
 PLUGIN_NAME = "AutoOverViewMeshes"
