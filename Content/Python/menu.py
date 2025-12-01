@@ -3,11 +3,13 @@ import unreal
 from placement import auto_place_from_selected_folder
 from utils import _log
 
+
 @unreal.uclass()
 class PlacementOptions(unreal.Object):
     start_row = unreal.uproperty(int)
     per_row = unreal.uproperty(int)
     spacing_cm = unreal.uproperty(float)
+
 
 def _get_selected_content_path() -> str:
     selected_path = unreal.EditorUtilityLibrary.get_current_content_browser_path()
@@ -54,6 +56,7 @@ def _run():
 
     options = _get_placement_options()
     if options is None:
+        _log("사용자가 옵션 입력을 취소했습니다.")
         return
 
     auto_place_from_selected_folder(
