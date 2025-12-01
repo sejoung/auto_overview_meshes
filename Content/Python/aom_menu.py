@@ -50,10 +50,6 @@ def _run():
     src = _get_selected_content_path()
     _log(f"[AutoOverViewMeshes] src={src}")
 
-    if not _confirm(src):
-        _log("사용자가 취소했습니다.")
-        return
-
     options = _get_placement_options()
     if options is None:
         _log("사용자가 옵션 입력을 취소했습니다.")
@@ -65,19 +61,6 @@ def _run():
         per_row=options.per_row,
         spacing_cm=options.spacing_cm
     )
-
-
-def _confirm(path: str) -> bool:
-    message = f"{path} will be modified.\nThis action cannot be undone. Do you want to continue?"
-    title_message = "Are you sure you want to proceed?"
-
-    result = unreal.EditorDialog.show_message(
-        title=title_message,
-        message=message,
-        message_type=unreal.AppMsgType.YES_NO,  # 버튼 구성
-        default_value=unreal.AppReturnType.NO  # 기본 선택
-    )
-    return result == unreal.AppReturnType.YES
 
 
 def register_menus():
@@ -103,5 +86,3 @@ def register_menus():
     )
     cb_menu.add_menu_entry(section_name, e)
     _log("[AutoOverViewMeshes] Menus registered")
-
-
