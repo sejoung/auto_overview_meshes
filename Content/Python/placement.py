@@ -19,17 +19,6 @@ def list_static_mesh_assets(root: str) -> List[unreal.AssetData]:
 
 
 # ─────────────────────────────────────────────────────────
-# 뷰포트 카메라 기준 위치 가져오기
-# ─────────────────────────────────────────────────────────
-def get_camera_origin_and_yaw(offset_cm: float = 300.0):
-    cam_loc, cam_rot = unreal.EditorLevelLibrary.get_level_viewport_camera_info()
-    fwd = cam_rot.get_forward_vector()
-    origin = cam_loc + fwd * offset_cm
-    yaw = cam_rot.yaw
-    return origin, yaw
-
-
-# ─────────────────────────────────────────────────────────
 # 선택된 액터에서 원점과 바운드 정보 가져오기
 # ─────────────────────────────────────────────────────────
 def get_selected_actor_origin():
@@ -114,6 +103,14 @@ def auto_place_from_folder(folder: str,
 
         # 이름/라벨 정리
         actor.set_actor_label(str(ad.asset_name), mark_dirty=True)
+
+        # StaticMesh의 상위 폴더 경로로 Outliner 폴더 설정
+        # e.g. "/Game/ExternalAssets/RD_P_PROP_MD_0012/Balcony/Balcony02/Meshes/SM_Balcony_01"
+        asset_path = str(ad.package_name)
+        path_parts = asset_path.split("/")
+
+        outliner_folder = "/".join(path_parts[4:6])  # "Balcony/Balcony02"
+        actor.set_folder_path(outliner_folder)
 
         spawned.append(actor)
 
