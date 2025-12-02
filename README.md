@@ -16,9 +16,8 @@ Unreal Engine 에디터 플러그인으로, 선택한 폴더의 StaticMesh들을
 1. 레벨 뷰포트에서 배치 기준이 될 메쉬(바닥 등)를 선택
 2. Content Browser에서 StaticMesh가 있는 폴더 우클릭
 3. **AutoOverViewMeshes** 메뉴 클릭
-4. 확인 다이얼로그에서 Yes 선택
-5. Placement Options 다이얼로그에서 옵션 설정 후 확인
-6. 선택한 메쉬 위에 그리드로 배치됨
+4. Placement Options 다이얼로그에서 옵션 설정 후 확인
+5. 선택한 메쉬 위에 그리드로 배치됨
 
 ## 설치
 
